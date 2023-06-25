@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+const int FIELD_SIZE = 10;
+
 enum CLUSTER_TYPE_IDX{
     Vertical = 0,
     Horizontal = 1,
@@ -27,16 +29,16 @@ struct Cell {
     int cluster_idx_[4]{};
 };
 
+
 class Field {
 
 private:
-    int size_ = 10;
     Cell arr[10][10]{};
     std::vector<Cluster> clusters;
 
 public:
     Field() {
-        clusters.reserve(100);
+       clusters.reserve(100);
     }
 
     void Print();

@@ -34,4 +34,9 @@
 .idea
 cmake-build-debug
 CMakeLists.txt
+Makefile
+main
+src/build
+.vscode
+
 

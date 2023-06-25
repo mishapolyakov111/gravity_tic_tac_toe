@@ -1,4 +1,4 @@
-#include "../includes/Field.h"
+#include "../includes/Field.hpp"
 
 #define CUR_CELL arr[y][x]
 #define LEFT_CELL arr[y][x - 1]
@@ -6,9 +6,11 @@
 #define UP_CELL arr[y + 1][x]
 #define DOWN_CELL arr[y - 1][x]
 
+#define LINEAR_INDEX y*FIELD_SIZE+x
+
 void Field::Print() {
-    for (int i = size_ - 1; i >=0; --i) {
-        for (int j = 0; j < size_; ++j) {
+    for (int i = FIELD_SIZE - 1; i >=0; --i) {
+        for (int j = 0; j < FIELD_SIZE; ++j) {
             std::cout << arr[i][j].value_ << " ";
         }
         std::cout << '\n';
@@ -17,6 +19,7 @@ void Field::Print() {
 }
 
 void Field::Play() {
+
     int x, y;
     bool cross_input = true;
     while (true) {
@@ -44,6 +47,8 @@ void Field::Play() {
 
         cross_input = !cross_input;
         Print();
+
+        Check(x, y);
     }
 }
 
@@ -58,20 +63,27 @@ void Field::DoGravity(int& x, int& y) {
 
 
 bool Field::Check(int x, int y) {
-    if (LEFT_CELL.value_ == CUR_CELL.value_ or RIGHT_CELL.value_ == CUR_CELL.value_) {
-        if (LEFT_CELL.value_ == CUR_CELL.value_ and LEFT_CELL.type_[Horizontal]) {
-            int idx = LEFT_CELL.cluster_idx_[Horizontal];
-            CUR_CELL.cluster_idx_[Horizontal] = idx;
-            ++clusters[idx].size_;
-        }
 
-        if (RIGHT_CELL.value_ == CUR_CELL.value_ and RIGHT_CELL.type_[Horizontal]) {
-            int idx = RIGHT_CELL.cluster_idx_[Horizontal];
-            CUR_CELL.cluster_idx_[Horizontal] = idx;
-            ++clusters[idx].size_;
-        }
+    if (LEFT_CELL.value_ == CUR_CELL.value_) {
+        
     }
+    
+    
+    
+
+    // if (LEFT_CELL.value_ == CUR_CELL.value_ or RIGHT_CELL.value_ == CUR_CELL.value_) {
+    //     if (LEFT_CELL.value_ == CUR_CELL.value_ and LEFT_CELL.type_[Horizontal]) {
+    //         int idx = LEFT_CELL.cluster_idx_[Horizontal];
+    //         CUR_CELL.cluster_idx_[Horizontal] = idx;
+    //         ++clusters[idx].size_;
+    //     }
+    // }
 
     return false;
 }
+
+
+
+
+
 
