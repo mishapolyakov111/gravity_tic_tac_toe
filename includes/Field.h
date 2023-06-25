@@ -6,10 +6,11 @@ enum CLUSTER_TYPE_IDX{
     Vertical = 0,
     Horizontal = 1,
     DiagonalUp = 2,
-    DiagonalDown = 3
+    DiagonalDown = 3,
+    None = 4
 };
 
-enum {
+enum{
     Zero = 48,
     Cross = 120,
     Empty = 46
@@ -17,7 +18,7 @@ enum {
 
 struct Cluster {
     int size_;
-    CLUSTER_TYPE_IDX type_;
+    CLUSTER_TYPE_IDX type_ = None;
 };
 
 struct Cell {

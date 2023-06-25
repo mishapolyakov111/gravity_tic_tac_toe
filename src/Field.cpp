@@ -1,15 +1,15 @@
 #include "../includes/Field.h"
 
-#define CUR_CELL arr[size_ - y][x - 1]
-#define LEFT_CELL arr[size_ - y][x - 2]
-#define RIGHT_CELL arr[size_ - y][x]
-#define UP_CELL arr[size_ - y + 1][x - 1]
-#define DOWN_CELL arr[size_ - y - 1][x - 1]
+#define CUR_CELL arr[y][x]
+#define LEFT_CELL arr[y][x - 1]
+#define RIGHT_CELL arr[y][x + 1]
+#define UP_CELL arr[y + 1][x]
+#define DOWN_CELL arr[y - 1][x]
 
 void Field::Print() {
-    for (auto& i: arr) {
-        for (auto& j: i) {
-            std::cout << j.value_ << " ";
+    for (int i = size_ - 1; i >=0; --i) {
+        for (int j = 0; j < size_; ++j) {
+            std::cout << arr[i][j].value_ << " ";
         }
         std::cout << '\n';
     }
@@ -21,22 +21,24 @@ void Field::Play() {
     bool cross_input = true;
     while (true) {
         std::cin >> x >> y;
-
         if (x == 0 or y == 0) {
             std::cout << "Program finished";
             break;
         }
 
-        if (arr[size_ - y][x - 1].value_ != Empty) {
+        --x;
+        --y;
+
+        if (arr[y][x].value_ != Empty) {
             std::cerr << "Try Enter Again\n";
             continue;
         }
 
         DoGravity(x, y);
         if (cross_input) {
-            arr[size_ - y][x - 1].value_ = Cross;
+            arr[y][x].value_ = Cross;
         } else {
-            arr[size_ - y][x - 1].value_ = Zero;
+            arr[y][x].value_ = Zero;
         }
 
 
@@ -46,18 +48,25 @@ void Field::Play() {
 }
 
 void Field::DoGravity(int& x, int& y) {
-    if (y == 1) {
+    if (y == 0) {
         return;
     }
-    while (y != 1 and arr[size_ - y + 1][x - 1].value_ == Empty) {
+    while (y != 0 and arr[y - 1][x].value_ == Empty) {
         --y;
     }
 }
+
 
 bool Field::Check(int x, int y) {
     if (LEFT_CELL.value_ == CUR_CELL.value_ or RIGHT_CELL.value_ == CUR_CELL.value_) {
         if (LEFT_CELL.value_ == CUR_CELL.value_ and LEFT_CELL.type_[Horizontal]) {
             int idx = LEFT_CELL.cluster_idx_[Horizontal];
+            CUR_CELL.cluster_idx_[Horizontal] = idx;
+            ++clusters[idx].size_;
+        }
+
+        if (RIGHT_CELL.value_ == CUR_CELL.value_ and RIGHT_CELL.type_[Horizontal]) {
+            int idx = RIGHT_CELL.cluster_idx_[Horizontal];
             CUR_CELL.cluster_idx_[Horizontal] = idx;
             ++clusters[idx].size_;
         }
